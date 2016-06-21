@@ -1,0 +1,31 @@
+package com.accenture.autotest.service.impl;
+
+import java.util.List;
+import java.util.Set;
+
+import org.apache.log4j.Logger;
+import org.openqa.selenium.WebDriver;
+
+import com.accenture.autotest.service.ActionHandle;
+
+public class SwitchWindowActionHandle extends ActionHandle {
+	@SuppressWarnings("unused")
+	private static Logger logger = Logger.getLogger(SwitchWindowActionHandle.class);
+
+	public boolean handle(WebDriver driver, String sheetName, List<String> rowData) {
+		boolean res = false;
+		try {
+			Set<String> windowhandles = driver.getWindowHandles();
+			if(this.getValue().equalsIgnoreCase("Popup")) {
+				String firstWindowHandle = driver.getWindowHandle();
+				windowhandles.remove(firstWindowHandle);
+			}
+			String nextWindow = windowhandles.iterator().next();
+			driver.switchTo().window(nextWindow);
+			res = true;
+		} catch (Exception ex) {
+			this.errorMessageHandle(ex);
+		}
+		return res;
+	}
+}

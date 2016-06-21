@@ -1,0 +1,42 @@
+package com.accenture.autotest.service.impl;
+
+import java.util.List;
+
+import org.apache.log4j.Logger;
+import org.openqa.selenium.WebDriver;
+
+import com.accenture.autotest.service.ActionHandle;
+import com.accenture.autotest.util.ScreenUtil;
+
+public class StepCaptureScreenActionHandle extends ActionHandle {
+	@SuppressWarnings("unused")
+	private static Logger logger = Logger.getLogger(StepCaptureScreenActionHandle.class);
+
+	@SuppressWarnings("unused")
+	public boolean handle(WebDriver driver, String sheetName, List<String> rowData) {
+		boolean res = false;
+		try {
+			
+			String stepTimeStr = ScreenUtil.getSetpTime(this.getStep());
+			//ScreenUtil.captureScreen(ScreenUtil.getPrintPathForSuccess(this.getScreenPath(), sheetName, stepTimeStr));
+			ScreenUtil.captureScreen(this.getPrintPath(true), driver);
+			res = true;
+		} catch (Exception ex) {
+			this.errorMessageHandle(ex);
+		}
+		return res;
+
+	}
+	
+//	public boolean handle(WebDriver driver, String sheetName, List<String> rowData) {
+//		boolean res = false;
+//		try {
+//			ScreenUtil.captureScreen(ScreenUtil.getPrintPathForSuccess(this.getScreenPath(), sheetName, this.getStep()),driver);
+//			res = true;
+//		} catch (Exception ex) {
+//			logger.error(ex.getMessage(), ex);
+//		}
+//		return res;
+//
+//	}
+}

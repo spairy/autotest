@@ -1,0 +1,43 @@
+package com.accenture.autotest.service.impl;
+
+import java.util.List;
+
+import org.apache.log4j.Logger;
+import org.openqa.selenium.Alert;
+import org.openqa.selenium.WebDriver;
+
+
+import com.accenture.autotest.service.ActionHandle;
+
+public class AlertClickActionHandle extends ActionHandle {
+	@SuppressWarnings("unused")
+	private static Logger logger = Logger
+			.getLogger(AlertClickActionHandle.class);
+	private static final int FIRST_BUTTON = 1;
+	private static final int SECOND_BUTTON = 2;
+
+	public boolean handle(WebDriver driver, String sheetName,
+			List<String> rowData) {
+		boolean res = false;
+		try {
+			int key = Integer.parseInt(this.getValue());
+			Alert alert = driver.switchTo().alert();
+			switch (key) {
+			case FIRST_BUTTON:
+				alert.accept();
+				res=true;
+				break;
+			case SECOND_BUTTON:
+				alert.dismiss();
+				res=true;
+				break;
+			default:
+				break;
+			}
+		} catch (Exception ex) {
+			this.errorMessageHandle(ex);
+		}
+		return res;
+
+	}
+}
